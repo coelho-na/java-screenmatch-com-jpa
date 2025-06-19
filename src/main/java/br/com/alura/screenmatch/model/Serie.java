@@ -7,15 +7,16 @@ import jdk.jfr.Enabled;
 import java.util.OptionalDouble;
 
 @Entity
-@Table(name="series")
+@Table(name="series") // alterando o nome da tabela para "series" ao invés de "Serie", como o nome da classe.
 public class Serie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //Generando Id auto incremental
     private Long id;
-    @Column(unique = true)
+    @Column(unique = true) // informando que só pode aceitar um título com o mesmo nome
     private String titulo;
     private Integer totalTemporadas;
     private Double avaliacao;
+    @Enumerated(EnumType.STRING)
     private Categoria genero;
     private String atores;
     private String poster;
@@ -29,6 +30,14 @@ public class Serie {
         this.atores = dadosSerie.atores();
         this.poster = dadosSerie.poster();
         this.sinopse = ConsultaChatGPT.obterTraducao(dadosSerie.sinopse()).trim();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitulo() {
